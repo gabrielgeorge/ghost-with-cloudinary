@@ -6,7 +6,7 @@ on:
       - 'main'
 
 jobs:
-  docker:
+  ci-build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
@@ -22,8 +22,15 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
         
+      - name: Bump version
+        run: |
+          git config --global user.email "gabriel.george92@gmail.com"
+          git config --global user.name "Github Actions"
+          git fetch --tags
+          wget -O - https://raw.githubusercontent.com/treeder/bump/master/gitbump.sh | bash
+
       - name: Set version env variable
         run: echo "VERSION=$(git tag --sort=-v:refname --list "v[0-9]*" | head -n 1 | cut -c 2-)" >> $GITHUB_ENV 
 
