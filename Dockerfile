@@ -6,7 +6,7 @@ ENV url "http://localhost:2368"
 # cloudinary://my_key:my_secret@my_cloud_name
 ENV CLOUDINARY_URL "cloudinary://my_key:my_secret@my_cloud_name" 
 
-FROM ghost:-alpine
+FROM ghost:4-alpine
 COPY --chown=node:node --from=cloudinary $GHOST_INSTALL/current/node_modules $GHOST_INSTALL/current/node_modules
 COPY --chown=node:node --from=cloudinary $GHOST_INSTALL/current/node_modules/ghost-storage-cloudinary $GHOST_INSTALL/current/core/server/adapters/storage/ghost-storage-cloudinary
 
